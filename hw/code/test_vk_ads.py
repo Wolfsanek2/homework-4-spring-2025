@@ -1,11 +1,12 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
-import dotenv
-import os
 from ui.pages.base_page import BasePage
 import time
 from ui.pages.login_page import LoginPage
-
+from ui.pages.leadforms_page import LeadformsPage
+from ui.pages.main_page import MainPage
+from utils.session import Session
+from utils.local_storage import get_all_local_storage, clear_local_storage, local_storage_set_item
 
 class BaseCase:
     @pytest.fixture(scope='function', autouse=True)
@@ -14,27 +15,41 @@ class BaseCase:
         self.config = config
 
         self.login_page = LoginPage(driver)
+        self.leadforms_page = LeadformsPage(driver)
+        self.main_page = MainPage(driver)
 
-
-@pytest.fixture(scope='session')
-def credentials():
-        dotenv.load_dotenv()
-        return {"phone_number": os.getenv("PHONE"), "password": os.getenv("PASSWORD")}
-
+        session = self.extract_session(request)
+        print('session:', session)
+        if session['cookie'] is None or session['local_storage'] is None:
+            print('login')
+            credentials = request.getfixturevalue('credentials')
+            self.login_page.login_by_phone(
+                credentials["phone_number"],
+                credentials["password"]
+            )
+            session['cookie'] = self.driver.get_cookies()
+            session['local_storage'] = get_all_local_storage(self.driver)
+        else:
+            for cookie in session['cookie']:
+                self.driver.add_cookie(cookie)
+            clear_local_storage(self.driver)
+            for key, value in session['local_storage'].items():
+                local_storage_set_item(self.driver, key, value)
+    
+    def extract_session(self, request: FixtureRequest) -> Session:
+        return request.getfixturevalue('session')
 
 @pytest.fixture(scope='session')
 def cookies(credentials, config):
     driver = config.get("driver")
 
 
-class TestLogin(BaseCase):
-    def test_login(self, credentials):
-        self.login_page.login(
-            # credentials["email"],
-            credentials["phone_number"],
-            credentials["password"]
-        )
-    time.sleep(10)
+# class TestLogin(BaseCase):
+#     def test_login(self, credentials):
+#         self.login_page.login_by_phone(
+#             credentials["phone_number"],
+#             credentials["password"]
+#         )
 
 # class TestLK(BaseCase):
 #     def test_search_classmate(self, credentials):

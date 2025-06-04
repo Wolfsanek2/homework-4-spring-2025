@@ -5,7 +5,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.common.exceptions import TimeoutException
 
 class PageNotOpenedExeption(Exception):
     pass
@@ -14,7 +14,6 @@ class PageNotOpenedExeption(Exception):
 class BasePage(object):
 
     locators = basic_locators.BasePageLocators()
-    locators_main = basic_locators.MainPageLocators()
     url = 'https://ads.vk.com/'
 
     def is_opened(self, timeout=15):
@@ -33,8 +32,11 @@ class BasePage(object):
             timeout = 5
         return WebDriverWait(self.driver, timeout=timeout)
 
-    def find(self, locator, timeout=None):
-        return self.wait(timeout).until(EC.presence_of_element_located(locator))
+    def find(self, locator, timeout=10):
+        try:
+            return self.wait(timeout).until(EC.presence_of_element_located(locator))
+        except TimeoutException as e:
+            raise TimeoutException(f"Элемент {locator} не найден в течении {timeout} секунд") from e
 
     # @allure.step('Search')
     # def search(self, query):
@@ -50,7 +52,8 @@ class BasePage(object):
 
 
     @allure.step('Click')
-    def click(self, locator, timeout=None) -> WebElement:
+    def click(self, locator, timeout=10) -> WebElement:
         self.find(locator, timeout=timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
+

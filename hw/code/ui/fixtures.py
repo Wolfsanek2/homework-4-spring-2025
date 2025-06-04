@@ -13,29 +13,32 @@ def driver(config):
     url = config['url']
     selenoid = config['selenoid']
     vnc = config['vnc']
+    
     options = Options()
+    
     if selenoid:
         capabilities = {
             'browserName': 'chrome',
-            'version': '118.0',
+            'browserVersion': 'latest',
+            'selenoid:options': {
+                'enableVNC': vnc,
+                'enableVideo': False
+            }
         }
-        if vnc:
-            capabilities['enableVNC'] = True
         driver = webdriver.Remote(
-            'http://127.0.0.1:4444/wd/hub',
+            command_executor='http://127.0.0.1:4444/wd/hub',
             options=options,
             desired_capabilities=capabilities
         )
     elif browser == 'chrome':
-        service = ChromeService(ChromeDriverManager().install())
+        options.add_argument('--start-maximized')
+        options.add_argument('--disable-extensions')
+        service = ChromeService(ChromeDriverManager(version="111.0.5563.64").install())
         driver = webdriver.Chrome(service=service, options=options)
-    elif browser == 'firefox':
-        service = FirefoxService(GeckoDriverManager().install())
-        driver = webdriver.Firefox(service=service, options=options)
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
+    
     driver.get(url)
-    driver.maximize_window()
     yield driver
     driver.quit()
 

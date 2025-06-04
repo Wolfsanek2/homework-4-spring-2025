@@ -1,5 +1,7 @@
 from ui.fixtures import *
-
+from typing import Dict, Any
+import dotenv
+import os
 
 def pytest_addoption(parser):
     parser.addoption('--browser', default='chrome')
@@ -31,3 +33,15 @@ def config(request):
         'selenoid': selenoid,
         'vnc': vnc,
     }
+
+@pytest.fixture(scope='session')
+def session() -> Dict[str, Any]:
+    return {
+        'cookie': None,
+        'local_storage': None
+    }
+
+@pytest.fixture(scope='session')
+def credentials():
+        dotenv.load_dotenv()
+        return {"phone_number": os.getenv("PHONE"), "password": os.getenv("PASSWORD")}
