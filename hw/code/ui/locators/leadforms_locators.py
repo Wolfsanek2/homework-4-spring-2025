@@ -10,7 +10,7 @@ class LeadformsPageLocators:
 class CreateLeadformPageLocators:
     CREATE_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Новая лид-форма"]')
     CLOSE_WINDOW_BTN = (By.XPATH, '//button[@aria-label="Close"]')
-    CONTINUE_BTN = (By.XPATH, '//span[text()="Продолжить"]')
+    CONTINUE_BTN = (By.XPATH, '//span[text()="Продолжить"]//ancestor::button')
     EMPTY_INPUT_ERROR = (By.XPATH, '//div[text()="Нужно заполнить"]')
     COMPANY_NAME_INPUT = (By.XPATH, '//input[@placeholder="Название компании"]')
     COMPANY_NAME_ERROR = (By.XPATH, "//*[contains(text(), 'Название компании')]/ancestor::div[contains(@class, 'vkuiFormItem')]//div[text()='Нужно заполнить']")
@@ -29,14 +29,20 @@ class CreateLeadformPageLocators:
     BACK_BTN = (By.XPATH, '//span[text()="Назад"]')
     
     ADD_QUESTION_BTN = (By.XPATH, '//span[text()="Добавить вопрос"]')
-    QUESTION_INPUT = (By.XPATH, '//input[@placeholder="Текст вопроса"]')
+    QUESTION_INPUT = (By.XPATH, '//textarea[@placeholder="Напишите вопрос"]')
     EMPTY_QUESTION_ERROR = (By.XPATH, '//div[text()="Нужно заполнить"]')
+
+    ANSWER_INPUT = (By.XPATH, '//input[@placeholder="Введите ответ"]')
     
-    RESULT_TITLE = (By.XPATH, '//input[@placeholder="Текст заголовка"]')
-    RESULT_DESCRIPTION = (By.XPATH, '//input[@placeholder="Введите описание"]')
+    RESULT_TITLE = (By.XPATH, '//span[text()="Заголовок"]//ancestor::div[contains(@class, "vkuiFormItem")]//input')
+    RESULT_DESCRIPTION = (By.XPATH, '//span[text()="Описание"]//ancestor::div[contains(@class, "vkuiFormItem")]//input')
     
     FORM_NAME_INPUT = (By.XPATH, '//input[@placeholder="Название лид-формы"]')
     SAVE_BTN = (By.XPATH, '//span[text()="Сохранить"]')
     SETTINGS_ERROR = (By.XPATH, '//div[text()="Нужно заполнить"]')
     
     CREATED_FORM_TITLE = (By.XPATH, '//span[contains(text(), "Лид-форма") and contains(text(), "{0}")]')
+
+    USER_NAME_INPUT = (By.XPATH, '//input[@placeholder="Введите фамилию, имя и отчество"]')
+
+    ADRESS_INPUT = (By.XPATH, '//input[@placeholder="Введите адрес"]')

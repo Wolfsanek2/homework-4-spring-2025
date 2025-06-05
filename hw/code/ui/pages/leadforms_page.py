@@ -80,11 +80,22 @@ class CreateLeadformPage(LeadformsPage):
     def is_question_form_visible(self):
         return self.has_element(self.locators_create_leadform.QUESTION_INPUT)
     
+    def fill_answers(self):
+        inputs = self.find_all(self.locators_create_leadform.ANSWER_INPUT)
+        counter = 1
+        for input in inputs:
+            input.send_keys(f'Тестовый ответ {counter}')
+            counter += 1
+
+    def fill_question_section(self):
+        self.add_question('Тестовый вопрос')
+        self.fill_answers()
+
     def has_empty_question_error(self):
         return self.has_element(self.locators_create_leadform.EMPTY_QUESTION_ERROR)
     
     def is_result_section_active(self):
-        return "Результат" in self.find(self.locators_create_leadform.QUESTIONS_ACTIVE_SECTION).text
+        return "Результат" in self.find(self.locators_create_leadform.ACTIVE_SECTION_TITLE).text
     
     def get_result_title(self):
         return self.find(self.locators_create_leadform.RESULT_TITLE).get_attribute('value')
@@ -93,7 +104,7 @@ class CreateLeadformPage(LeadformsPage):
         return self.find(self.locators_create_leadform.RESULT_DESCRIPTION).get_attribute('value')
     
     def is_settings_section_active(self):
-        return "Настройки" in self.find(self.locators_create_leadform.QUESTIONS_ACTIVE_SECTION).text
+        return "Настройки" in self.find(self.locators_create_leadform.ACTIVE_SECTION_TITLE).text
     
     def fill_form_name(self, name):
         self.find(self.locators_create_leadform.FORM_NAME_INPUT).send_keys(name)
@@ -104,19 +115,24 @@ class CreateLeadformPage(LeadformsPage):
     def has_settings_error(self):
         return self.has_element(self.locators_create_leadform.SETTINGS_ERROR)
     
-    def complete_all_sections(self, company_name="Test Company", title="Test Title", 
-                            description="Test Description", question="Test Question", 
-                            form_name="Test Form"):
-        self.fill_company_name(company_name)
-        self.fill_title(title)
-        self.fill_description(description)
-        self.upload_logo()
-        self.click_continue()
-        
-        self.add_question(question)
-        self.click_continue()
-        
+    def fill_user_name(self, name='Тестовое имя'):
+        self.find(self.locators_create_leadform.USER_NAME_INPUT).send_keys(name)
+
+    def fill_adress(self, adress='Тестовый адрес'):
+        self.find(self.locators_create_leadform.ADRESS_INPUT).send_keys(adress)
+
+    def fill_settings_section(self):
+        self.fill_user_name()
+        self.fill_adress()
+
+    def complete_all_sections(self, company_name="Тестовая компания", title="Тестовый заголовок", description="Тестовое описание", question="Тестовый вопрос", form_name="Тестовая лид-форма"):
         self.fill_form_name(form_name)
+        self.fill_deco_section(company_name, title, description)
+        self.click_continue()
+        self.fill_question_section()
+        self.click_continue()
+        self.click_continue()
+        self.fill_settings_section()
     
     def is_leadform_created(self, form_name):
         locator = (self.locators_create_leadform.CREATED_FORM_TITLE[0], 

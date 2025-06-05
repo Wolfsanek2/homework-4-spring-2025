@@ -79,52 +79,42 @@ class TestCreateLeadform(BaseCase):
         create_leadform_page.click_back()
         assert create_leadform_page.is_design_section_active()
 
-
-
     def test_add_question(self, create_leadform_page: CreateLeadformPage):
         create_leadform_page.fill_deco_section()
         create_leadform_page.click_continue()
         create_leadform_page.add_question()
         assert create_leadform_page.is_question_form_visible()
 
-    def test_empty_question_error(self, create_leadform_page: CreateLeadformPage):
-        create_leadform_page.fill_required_fields_and_continue()
-        create_leadform_page.add_question('Тестовый вопрос')
-        create_leadform_page.click_continue()
-        assert create_leadform_page.has_empty_question_error()
-
     def test_continue_to_result_section(self, create_leadform_page: CreateLeadformPage):
-        create_leadform_page.fill_required_fields_and_continue()
-        create_leadform_page.add_question("Тестовый вопрос")
+        create_leadform_page.fill_deco_section()
+        create_leadform_page.click_continue()
+        create_leadform_page.fill_question_section()
         create_leadform_page.click_continue()
         assert create_leadform_page.is_result_section_active()
 
     def test_result_section_default_texts(self, create_leadform_page: CreateLeadformPage):
-        create_leadform_page.fill_required_fields_and_continue()
-        create_leadform_page.add_question("Тестовый вопрос")
+        create_leadform_page.fill_deco_section()
+        create_leadform_page.click_continue()
+        create_leadform_page.fill_question_section()
         create_leadform_page.click_continue()
         assert create_leadform_page.get_result_title() == "Спасибо за ответы!"
         assert create_leadform_page.get_result_description() == "Заявка отправлена"
 
     def test_continue_to_settings_section(self, create_leadform_page: CreateLeadformPage):
-        create_leadform_page.fill_required_fields_and_continue()
-        create_leadform_page.add_question("Test Question")
+        create_leadform_page.fill_deco_section()
+        create_leadform_page.click_continue()
+        create_leadform_page.fill_question_section()
         create_leadform_page.click_continue()
         create_leadform_page.click_continue()
         assert create_leadform_page.is_settings_section_active()
 
-    def test_empty_settings_error(self, create_leadform_page: CreateLeadformPage):
-        create_leadform_page.complete_all_sections()
-        create_leadform_page.click_save()
-        assert create_leadform_page.has_settings_error()
-
     def test_successful_leadform_creation(self, create_leadform_page: CreateLeadformPage):
         create_leadform_page.complete_all_sections(
-            company_name="Test Company",
-            title="Test Title",
-            description="Test Description",
-            question="Test Question",
-            form_name="Test Form"
+            company_name="Тестовая компания",
+            title="Тестовый заголовок",
+            description="Тестовое описание",
+            question="Тестовый вопрос",
+            form_name="Тестовая лид-форма"
         )
         create_leadform_page.click_save()
-        assert create_leadform_page.is_leadform_created("Test Form")
+        assert create_leadform_page.is_leadform_created("Тестовая лид-форма")

@@ -39,6 +39,12 @@ class BasePage(object):
         except TimeoutException as e:
             raise TimeoutException(f"Элемент {locator} не найден в течении {timeout} секунд") from e
     
+    def find_all(self, locator, timeout=10):
+        try:
+            return self.wait(timeout).until(EC.presence_of_all_elements_located(locator))
+        except:
+            raise TimeoutException(f"Элементы {locator} не найдены в течении {timeout} секунд") from e
+
     def has_element(self, locator, timeout=10):
         self.find(locator, timeout)
         return True
@@ -59,4 +65,3 @@ class BasePage(object):
         self.find(locator, timeout=timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
-
