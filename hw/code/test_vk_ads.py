@@ -9,6 +9,7 @@ from ui.pages.settings_page import SettingsPage
 from ui.pages.campaigns_page import CampaignPage
 from utils.session import Session
 from utils.local_storage import get_all_local_storage, clear_local_storage, local_storage_set_item
+from utils.session import write_session_to_file
 
 class BaseCase:
     @pytest.fixture(scope='function', autouse=True)
@@ -32,6 +33,7 @@ class BaseCase:
             )
             session['cookie'] = self.driver.get_cookies()
             session['local_storage'] = get_all_local_storage(self.driver)
+            write_session_to_file(session)
         else:
             for cookie in session['cookie']:
                 self.driver.add_cookie(cookie)

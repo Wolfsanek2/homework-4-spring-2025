@@ -2,6 +2,7 @@ from ui.fixtures import *
 from typing import Dict, Any
 import dotenv
 import os
+from utils.session import read_session_from_file
 
 def pytest_addoption(parser):
     parser.addoption('--browser', default='chrome')
@@ -36,10 +37,13 @@ def config(request):
 
 @pytest.fixture(scope='session')
 def session() -> Dict[str, Any]:
-    return {
-        'cookie': None,
-        'local_storage': None
-    }
+    session = read_session_from_file()
+    if session is None:
+        return {
+            'cookie': None,
+            'local_storage': None
+        }
+    return session
 
 @pytest.fixture(scope='session')
 def credentials():
