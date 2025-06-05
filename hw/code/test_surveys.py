@@ -85,7 +85,7 @@ class TestSurveys(BaseCase):
 
     def test_fill_thanks(self, surveys_page):
         surveys_page.click_create_survey_button()
-        surveys_page.fill_thanks("Thank you!")
+        surveys_page.fill_thanks("Thank you")
         assert surveys_page.find(surveys_page.locators.HEADER_3).get_attribute("value") == "Thank you!"
 
     def test_fill_description(self, surveys_page):
