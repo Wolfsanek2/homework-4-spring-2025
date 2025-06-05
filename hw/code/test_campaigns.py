@@ -25,7 +25,6 @@ class TestCampaign(BaseCase):
         campaign_page.click_site_success()
 
         campaign_page.fill_budget(10000)
-        time.sleep(1) # иначе не работает
         campaign_page.click_continue()
 
     def test_groups_empty_inputs(self, campaign_page):

@@ -30,6 +30,7 @@ class CampaignPage(BasePage):
         return self.find(self.locators.WEBSITE_ERROR).text
     
     def click_continue(self):
+        self.wait().until(lambda d: 'vkuiClickable__realClickable' in d.find_element(*self.locators.CREATE_CONTINUE_BTN).get_attribute("class"))
         return self.click(self.locators.CREATE_CONTINUE_BTN)
     
     def check_length(self):
@@ -46,11 +47,9 @@ class CampaignPage(BasePage):
     def settings_continue(self):
         self.click_site_success()
         self.fill_budget(10000)
-        time.sleep(1)
         self.click_continue()
 
     def test_groups_empty_inputs(self):
-        self.wait().until(EC.element_to_be_clickable(self.locators.CREATE_CONTINUE_BTN))
         self.click_continue()
         try:
             self.find(self.locators.ONE_ERROR)

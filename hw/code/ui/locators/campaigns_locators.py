@@ -7,7 +7,7 @@ class CampaignsLocators:
 
     WEBSITE_INPUT = (By.CSS_SELECTOR, 'input[data-testid="site-select-input"]')
     WEBSITE_ERROR = (By.XPATH, "//div[text()='Неверный формат URL']")
-    CREATE_CONTINUE_BTN = (By.XPATH, "//span[text()='Продолжить']")
+    CREATE_CONTINUE_BTN = (By.XPATH, "//button[.//span[text()='Продолжить']]")
 
     IMPORTANT_DETAILS = (By.XPATH, "//h2[contains(., 'Важные детали')]")
     BUDGET_OPTIMIZATION_TOGGLE = (By.CSS_SELECTOR, "input[data-testid='budget-optimization']") #??
