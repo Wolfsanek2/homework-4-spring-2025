@@ -5,6 +5,7 @@ import time
 from ui.pages.login_page import LoginPage
 from ui.pages.leadforms_page import LeadformsPage
 from ui.pages.main_page import MainPage
+from ui.pages.settings_page import SettingsPage
 from utils.session import Session
 from utils.local_storage import get_all_local_storage, clear_local_storage, local_storage_set_item
 from utils.session import write_session_to_file
@@ -14,6 +15,12 @@ class BaseCase:
     def setup(self, driver, config, request: FixtureRequest):
         self.driver = driver
         self.config = config
+
+        self.login_page = LoginPage(driver)
+        self.leadforms_page = LeadformsPage(driver)
+        self.main_page = MainPage(driver)
+        self.settings_page = SettingsPage(driver)
+
         session = self.extract_session(request)
         if session['cookie'] is None or session['local_storage'] is None:
             credentials = request.getfixturevalue('credentials')

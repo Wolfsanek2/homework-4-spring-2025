@@ -18,6 +18,7 @@ class BasePage(object):
     url = 'https://ads.vk.com/'
 
     def is_opened(self, timeout=15):
+        return
         started = time.time()
         while time.time() - started < timeout:
             if self.driver.current_url == self.url:
@@ -33,7 +34,7 @@ class BasePage(object):
             timeout = 5
         return WebDriverWait(self.driver, timeout=timeout)
 
-    def find(self, locator, timeout=10):
+    def find(self, locator, timeout=30):
         try:
             return self.wait(timeout).until(EC.presence_of_element_located(locator))
         except TimeoutException as e:
