@@ -15,12 +15,6 @@ class BaseCase:
     def setup(self, driver, config, request: FixtureRequest):
         self.driver = driver
         self.config = config
-
-        self.login_page = LoginPage(driver)
-        self.leadforms_page = LeadformsPage(driver)
-        self.main_page = MainPage(driver)
-        self.settings_page = SettingsPage(driver)
-
         session = self.extract_session(request)
         if session['cookie'] is None or session['local_storage'] is None:
             credentials = request.getfixturevalue('credentials')
