@@ -33,7 +33,10 @@ def driver(config):
     elif browser == 'chrome':
         options.add_argument('--start-maximized')
         options.add_argument('--disable-extensions')
-        service = ChromeService(ChromeDriverManager(version="111.0.5563.64").install())
+        try:
+            service = ChromeService(ChromeDriverManager().install())
+        except:
+            service = ChromeService(ChromeDriverManager(version="111.0.5563.64").install())
         driver = webdriver.Chrome(service=service, options=options)
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
