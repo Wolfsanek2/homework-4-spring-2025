@@ -18,7 +18,6 @@ class BasePage(object):
     url = 'https://ads.vk.com/'
 
     def is_opened(self, timeout=15):
-        return
         started = time.time()
         while time.time() - started < timeout:
             if self.driver.current_url == self.url:
