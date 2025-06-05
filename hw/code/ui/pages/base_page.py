@@ -1,9 +1,16 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+import time
 
 class BasePage:
     """Базовый класс для всех страниц"""
+    def is_opened(self, timeout=15):
+        started = time.time()
+        while time.time() - started < timeout:
+            if self.driver.current_url == self.url:
+                return True
+        raise PageNotOpenedExeption(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
     def __init__(self, driver):
         self.driver = driver

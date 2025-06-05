@@ -17,24 +17,16 @@ class TestSurveys(BaseCase):
         assert surveys_page.is_element_visible(surveys_page.locators.CREATE_SURVEY_BUTTON)
 
     def test_create_survey_window_appears(self, surveys_page):
-        # Wait for button to be clickable
         surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
         assert surveys_page.is_element_visible(surveys_page.locators.SURVEY_CREATE_MODAL)
 
     def test_empty_input_errors(self, surveys_page):
-        # Wait for button to be clickable
         surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        # Wait for continue button to be clickable
         surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CONTINUE_BUTTON))
         surveys_page.click_continue()
-        # Add small delay to let errors appear
-        time.sleep(1)
+        
         errors = surveys_page.get_error_texts()
         assert errors["name"] == "Нужно заполнить"
         assert errors["company"] == "Нужно заполнить"
@@ -42,16 +34,11 @@ class TestSurveys(BaseCase):
         assert errors["description"] == "Нужно заполнить"
 
     def test_error_disappears_after_input(self, surveys_page):
-        # Wait for button to be clickable
         surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        # Wait for inputs to be visible
         surveys_page.wait.until(EC.visibility_of_element_located(surveys_page.locators.SURVEY_NAME_INPUT))
         surveys_page.fill_data("Test Survey", "Test Company", "Test Title", "Test Description")
-        # Add small delay to let errors disappear
-        time.sleep(1)
+
         errors = surveys_page.get_error_texts()
         assert errors["name"] == ""
         assert errors["company"] == ""
@@ -59,29 +46,21 @@ class TestSurveys(BaseCase):
         assert errors["description"] == ""
 
     def test_media_library_opens(self, surveys_page):
-        # Wait for button to be clickable
         surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        # Wait for load image button to be clickable
         surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.LOAD_IMAGE_BUTTON))
         surveys_page.click(surveys_page.locators.LOAD_IMAGE_BUTTON)
-        # Add small delay to let file input appear
-        time.sleep(1)
-        assert surveys_page.is_element_visible(surveys_page.locators.LOAD_IMAGE_INPUT)
+
+        surveys_page.wait().until(EC.visibility_of_element_located(surveys_page.locators.LOAD_IMAGE_INPUT))
 
     def test_upload_image(self, surveys_page):
-        # Wait for button to be clickable
         surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        # Wait for load image button to be clickable
         surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.LOAD_IMAGE_BUTTON))
-        surveys_page.upload_image("/path/to/test/image.jpg")  # You'll need to provide a valid test image path
-        # Add small delay to let image upload
-        time.sleep(2)
+        surveys_page.upload_image("/imgs/image.jpg")
+
+        time.sleep(10000)
+
         assert surveys_page.is_element_visible(surveys_page.locators.UPLOADED_IMAGE_ITEM)
 
     def test_questions_section_opens(self, surveys_page):

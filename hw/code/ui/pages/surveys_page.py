@@ -13,7 +13,6 @@ class SurveyPage(BasePage):
 
     def click_create_survey_button(self):
         self.click(self.locators.CREATE_SURVEY_BUTTON)
-        # Wait for modal to appear
         self.wait.until(EC.visibility_of_element_located(self.locators.SURVEY_CREATE_MODAL))
 
     def get_last_image_name_from_media_library(self) -> str:
@@ -40,14 +39,15 @@ class SurveyPage(BasePage):
 
     def upload_image(self, filepath: str):
         self.click(self.locators.LOAD_IMAGE_BUTTON)
-        # Wait for file input to be present
         self.wait.until(EC.presence_of_element_located(self.locators.LOAD_IMAGE_INPUT))
-        # Use JavaScript to set file path since it's a hidden input
-        self.driver.execute_script(
-            "arguments[0].style.display = 'block';", 
-            self.driver.find_element(*self.locators.LOAD_IMAGE_INPUT)
-        )
-        self.fill(self.locators.LOAD_IMAGE_INPUT, filepath)
+        self.click(self.locators.LOAD_IMAGE_INPUT)
+        # self.driver.execute_script(
+        #     "arguments[0].style.display = 'block';", 
+        #     self.driver.find_element(*self.locators.LOAD_IMAGE_INPUT)
+        # )
+
+        self.driver.execute_script("arguments[0].style.display = 'block';", filepath)
+        # self.fill(self.locators.LOAD_IMAGE_INPUT, filepath)
 
     def delete_all_from_media_library(self):
         self.click(self.locators.EDIT_IMAGES_BUTTON)

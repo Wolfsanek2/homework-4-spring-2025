@@ -4,10 +4,7 @@ from ..locators.basic_locators import BasePageLocators
 
 class SurveyLocators(BasePageLocators):
     CREATE_SURVEY_BUTTON = (By.XPATH, "//*[text()='Создать опрос']")
-    SURVEY_CREATE_MODAL = (
-        By.XPATH,
-        "//div[contains(@class, 'ModalSidebarPage_container')]",
-    )
+    SURVEY_CREATE_MODAL = (By.CLASS_NAME, "ModalSidebarPage_container__V2ccs")
 
     CROSS_BUTTON = (By.XPATH, "//button[@aria-label='close_button']")
 
@@ -27,7 +24,7 @@ class SurveyLocators(BasePageLocators):
     QUESTION_LIST = (By.XPATH, "//*[contains(@class, 'Question_question')]")
 
     LOAD_IMAGE_BUTTON = (By.XPATH, "//*[contains(@data-testid, 'set-global-image')]")
-    LOAD_IMAGE_INPUT = (By.XPATH, "//input[@type='file']")
+    LOAD_IMAGE_INPUT = (By.XPATH,  "//span[text()='Загрузите медиафайлы']/preceding-sibling::input[@type='file']")
     UPLOADED_IMAGE_ITEM = (By.XPATH, "//*[contains(@class, 'ItemList_item__')]")
     UPLOADED_IMAGE_NAME = (By.XPATH, "//*[contains(@class, 'ImageItem_name__')]")
 
@@ -43,7 +40,7 @@ class SurveyLocators(BasePageLocators):
         "//*[contains(@class, 'vkuiButton__') and text()='Удалить']",
     )
 
-    CONTINUE_BUTTON = (By.XPATH, "//button[contains(@data-testid, 'submit')]")
+    CONTINUE_BUTTON = (By.XPATH, "//span[text()='Вопросы']")
 
     TITLE_INPUT = (By.XPATH, "//input[@placeholder='Введите название']")
     COMPANY_INPUT = (By.XPATH, "//input[@placeholder='Введите название компании']")
