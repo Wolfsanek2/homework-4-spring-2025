@@ -73,21 +73,23 @@ class TestCreateLeadform(BaseCase):
         create_leadform_page.click_continue()
         assert create_leadform_page.has_max_length_error()
 
-
-
     def test_back_to_design_section(self, create_leadform_page: CreateLeadformPage):
-        create_leadform_page.fill_required_fields_and_continue()
+        create_leadform_page.fill_deco_section()
+        create_leadform_page.click_continue()
         create_leadform_page.click_back()
         assert create_leadform_page.is_design_section_active()
 
+
+
     def test_add_question(self, create_leadform_page: CreateLeadformPage):
-        create_leadform_page.fill_required_fields_and_continue()
+        create_leadform_page.fill_deco_section()
+        create_leadform_page.click_continue()
         create_leadform_page.add_question()
         assert create_leadform_page.is_question_form_visible()
 
     def test_empty_question_error(self, create_leadform_page: CreateLeadformPage):
         create_leadform_page.fill_required_fields_and_continue()
-        create_leadform_page.add_question()
+        create_leadform_page.add_question('Тестовый вопрос')
         create_leadform_page.click_continue()
         assert create_leadform_page.has_empty_question_error()
 

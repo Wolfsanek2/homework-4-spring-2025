@@ -20,7 +20,7 @@ class CreateLeadformPageLocators:
     SAVE_LOGO_BTN = (By.XPATH, '//span[text()="Сохранить"]')
     TITLE_INPUT = (By.XPATH, '//input[@placeholder="Текст заголовка"]')
     DESCRIPTION_INPUT = (By.XPATH, '//input[@placeholder="Введите описание"]')
-    QUESTIONS_ACTIVE_SECTION = (By.CSS_SELECTOR, 'div[class*="CreateLeadFormModal_activeStep"]')
+    ACTIVE_SECTION_TITLE = (By.CSS_SELECTOR, 'div[class*="CreateLeadFormModal_activeStep"]')
 
     DESCRIPTION_COUNTER = (By.XPATH, '//input[@placeholder="Введите описание"]//ancestor::div[contains(@class, "vkuiFormItem")]//div[@class=""]')
     
