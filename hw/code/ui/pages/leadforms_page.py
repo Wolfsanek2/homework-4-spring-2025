@@ -1,6 +1,5 @@
 from ui.pages.base_page import BasePage
 from ui.locators.leadforms_locators import LeadformsPageLocators, CreateLeadformPageLocators
-import time
 
 class LeadformsPage(BasePage):
     url = 'https://ads.vk.com/hq/leadads/leadforms'
