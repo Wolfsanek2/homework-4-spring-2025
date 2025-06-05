@@ -5,6 +5,7 @@ from ui.pages.leadforms_page import LeadformsPage, CreateLeadformPage
 class TestLeadforms(BaseCase):
     @fixture(scope='function')
     def leadforms_page(self):
+        pass
         driver = self.driver
         driver.get(LeadformsPage.url)
         return LeadformsPage(driver)

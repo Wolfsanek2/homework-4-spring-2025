@@ -1,5 +1,6 @@
 from ui.pages.base_page import BasePage
 from ui.locators import login_locators
+import time
 
 class LoginPage(BasePage):
     login_url = 'https://id.vk.com'
