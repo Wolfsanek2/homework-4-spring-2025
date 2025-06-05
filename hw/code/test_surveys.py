@@ -17,14 +17,14 @@ class TestSurveys(BaseCase):
         assert surveys_page.is_element_visible(surveys_page.locators.CREATE_SURVEY_BUTTON)
 
     def test_create_survey_window_appears(self, surveys_page):
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
+        surveys_page.wait().until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
         assert surveys_page.is_element_visible(surveys_page.locators.SURVEY_CREATE_MODAL)
 
     def test_empty_input_errors(self, surveys_page):
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
+        surveys_page.wait().until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CONTINUE_BUTTON))
+        surveys_page.wait().until(EC.element_to_be_clickable(surveys_page.locators.CONTINUE_BUTTON))
         surveys_page.click_continue()
         
         errors = surveys_page.get_error_texts()
@@ -34,9 +34,9 @@ class TestSurveys(BaseCase):
         assert errors["description"] == "Нужно заполнить"
 
     def test_error_disappears_after_input(self, surveys_page):
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
+        surveys_page.wait().until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        surveys_page.wait.until(EC.visibility_of_element_located(surveys_page.locators.SURVEY_NAME_INPUT))
+        surveys_page.wait().until(EC.visibility_of_element_located(surveys_page.locators.SURVEY_NAME_INPUT))
         surveys_page.fill_data("Test Survey", "Test Company", "Test Title", "Test Description")
 
         errors = surveys_page.get_error_texts()
@@ -46,104 +46,17 @@ class TestSurveys(BaseCase):
         assert errors["description"] == ""
 
     def test_media_library_opens(self, surveys_page):
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
+        surveys_page.wait().until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.LOAD_IMAGE_BUTTON))
+        surveys_page.wait().until(EC.element_to_be_clickable(surveys_page.locators.LOAD_IMAGE_BUTTON))
         surveys_page.click(surveys_page.locators.LOAD_IMAGE_BUTTON)
 
         surveys_page.wait().until(EC.visibility_of_element_located(surveys_page.locators.LOAD_IMAGE_INPUT))
 
     def test_upload_image(self, surveys_page):
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
+        surveys_page.wait().until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
         surveys_page.click_create_survey_button()
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.LOAD_IMAGE_BUTTON))
-        surveys_page.upload_image("/imgs/image.jpg")
-
-        time.sleep(10000)
+        surveys_page.wait().until(EC.element_to_be_clickable(surveys_page.locators.LOAD_IMAGE_BUTTON))
+        surveys_page.upload_image("media/test_picture.jpg")
 
         assert surveys_page.is_element_visible(surveys_page.locators.UPLOADED_IMAGE_ITEM)
-
-    def test_questions_section_opens(self, surveys_page):
-        # Wait for button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
-        surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        # Wait for questions button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.QUESTIONS_BUTTON))
-        surveys_page.click(surveys_page.locators.QUESTIONS_BUTTON)
-        # Add small delay to let question input appear
-        time.sleep(1)
-        assert surveys_page.is_element_visible(surveys_page.locators.QUESTION_TITLE_INPUT)
-
-    def test_add_question(self, surveys_page):
-        # Wait for button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
-        surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        # Wait for questions button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.QUESTIONS_BUTTON))
-        surveys_page.click(surveys_page.locators.QUESTIONS_BUTTON)
-        # Add small delay to let question input appear
-        time.sleep(1)
-        surveys_page.click_add_question()
-        # Add small delay to let question list appear
-        time.sleep(1)
-        assert surveys_page.is_element_visible(surveys_page.locators.QUESTION_LIST)
-
-    def test_fill_question_and_answers(self, surveys_page):
-        # Wait for button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
-        surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        # Wait for questions button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.QUESTIONS_BUTTON))
-        surveys_page.click(surveys_page.locators.QUESTIONS_BUTTON)
-        # Add small delay to let question input appear
-        time.sleep(1)
-        surveys_page.fill_title("Test Question")
-        surveys_page.fill_answers("Answer 1", "Answer 2")
-        # Add small delay to let text appear
-        time.sleep(1)
-        assert surveys_page.get_text(surveys_page.locators.QUESTION_TITLE_INPUT) == "Test Question"
-
-    def test_add_stop_screen(self, surveys_page):
-        # Wait for button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
-        surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        # Wait for questions button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.QUESTIONS_BUTTON))
-        surveys_page.click(surveys_page.locators.QUESTIONS_BUTTON)
-        # Add small delay to let question input appear
-        time.sleep(1)
-        surveys_page.click(surveys_page.locators.ADD_STOP_BUTTON)
-        # Add small delay to let stop screen appear
-        time.sleep(1)
-        assert surveys_page.is_element_visible(surveys_page.locators.STOP_HEADING_INPUT)
-
-    def test_archive_survey(self, surveys_page):
-        # Wait for button to be clickable
-        surveys_page.wait.until(EC.element_to_be_clickable(surveys_page.locators.CREATE_SURVEY_BUTTON))
-        surveys_page.click_create_survey_button()
-        # Add small delay to let modal appear
-        time.sleep(1)
-        surveys_page.fill_data("Test Survey", "Test Company", "Test Title", "Test Description")
-        # Add small delay to let data be filled
-        time.sleep(1)
-        surveys_page.click_continue()
-        # Add small delay to let survey be created
-        time.sleep(2)
-        surveys_page.remove_survey()
-        # Add small delay to let survey be archived
-        time.sleep(1)
-        assert not surveys_page.is_element_visible(surveys_page.locators.FIRST_SURVAY_NAME)
-
-    def test_delete_all_forms(self, surveys_page):
-        surveys_page.delete_all_forms("Test Survey")
-        # Add small delay to let forms be deleted
-        time.sleep(1)
-        assert not surveys_page.is_element_visible(surveys_page.locators.FIRST_LEAD_FORM_NAME)

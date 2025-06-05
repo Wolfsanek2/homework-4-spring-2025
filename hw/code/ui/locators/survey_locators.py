@@ -24,7 +24,9 @@ class SurveyLocators(BasePageLocators):
     QUESTION_LIST = (By.XPATH, "//*[contains(@class, 'Question_question')]")
 
     LOAD_IMAGE_BUTTON = (By.XPATH, "//*[contains(@data-testid, 'set-global-image')]")
-    LOAD_IMAGE_INPUT = (By.XPATH,  "//span[text()='Загрузите медиафайлы']/preceding-sibling::input[@type='file']")
+    LOAD_IMAGE_INPUT = (By.XPATH,  "//span[text()='Загрузите медиафайлы']")
+    LOGO_IN_MEDIA = (By.CSS_SELECTOR, "div[class*='ItemList_item']")
+    SAVE_LOGO_BTN = (By.XPATH, '//span[text()="Сохранить"]')
     UPLOADED_IMAGE_ITEM = (By.XPATH, "//*[contains(@class, 'ItemList_item__')]")
     UPLOADED_IMAGE_NAME = (By.XPATH, "//*[contains(@class, 'ImageItem_name__')]")
 
