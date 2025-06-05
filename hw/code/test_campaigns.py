@@ -36,11 +36,11 @@ class TestCampaign(BaseCase):
         assert campaign_page.test_invalid_utm() == True
 
 
-    # def test_toggle_ok(self, campaign_page): не работает
-    #     campaign_page.click_site_success()
-    #     campaign_page.budget_toggle()
+    def test_toggle_ok(self, campaign_page):
+        campaign_page.click_site_success()
+        campaign_page.budget_toggle()
 
-    # def test_empty_inputs(self, campaign_page): Не работает пока
-    #     campaign_page.click_site()
-    #     campaign_page.input_website("https://ads.vk.com/")
-    #     campaign_page.click_continue()
+    def test_empty_inputs(self, campaign_page):
+        campaign_page.click_site()
+        campaign_page.input_website("https://ads.vk.com/")
+        campaign_page.click_continue()
