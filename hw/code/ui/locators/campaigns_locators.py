@@ -1,26 +1,19 @@
 from selenium.webdriver.common.by import By
 
 class CampaignsLocators: 
-    # Селекторы неправильные
-    CREATE_CAMPAIGN = (By.XPATH, "//button[.//span[normalize-space(text())='Создать кампанию']]")
+    CREATE_CAMPAIGN = (By.XPATH, "//span[text()='Создать кампанию']")
 
-    SITE_CONVERSIONS_OPTION = (By.CSS_SELECTOR, 'div[data-id="site_conversions"]')
+    SITE_CONVERSIONS_OPTION = (By.XPATH, "//span[text()='Сайт']")
 
     WEBSITE_INPUT = (By.CSS_SELECTOR, 'input[data-testid="site-select-input"]')
-    WEBSITE_ERROR = (By.XPATH, "//div[normalize-space(text())='Не удалось подгрузить данные ссылки']")
-    CREATE_CONTINUE_BTN = (By.XPATH, "//span[contains(@class,'vkuiButton__content') and normalize-space(text())='Продолжить']")
+    WEBSITE_ERROR = (By.XPATH, "//div[text()='Неверный формат URL']")
+    CREATE_CONTINUE_BTN = (By.XPATH, "//span[text()='Продолжить']")
 
-    ## Следующие значения локаторов точно неправильные, предыдущие еще не успел проверить
+    IMPORTANT_DETAILS = (By.XPATH, "//h2[contains(., 'Важные детали')]")
+    BUDGET_OPTIMIZATION_TOGGLE = (By.CSS_SELECTOR, "input[data-testid='budget-optimization']") #??
+    BUDGET_INPUT = (By.XPATH, '//div[contains(@class, "Budget_budgetControlsWrapper__ITCir")]//input[@data-testid="targeting-not-set"]')
 
-    DIFFERENCES_INPUT = (By.CSS_SELECTOR, "textarea[data-testid='campaign-differences']")
-    DIFFERENCES_ERROR = (By.XPATH, "//div[contains(text(), 'Превышен лимит символов')]")
-    
-    BUDGET_OPTIMIZATION_TOGGLE = (By.CSS_SELECTOR, "input[data-testid='budget-optimization-toggle']")
-    BIDDING_STRATEGY_INPUT = (By.CSS_SELECTOR, "select[data-testid='bidding-strategy']")
-    BUDGET_INPUT = (By.CSS_SELECTOR, "input[data-testid='campaign-budget']")
-    MAX_CLICK_COST_INPUT = (By.CSS_SELECTOR, "input[data-testid='max-click-cost']")
-    
-    OFFLINE_CONVERSIONS_CHECKBOX = (By.CSS_SELECTOR, "input[data-testid='offline-conversions']")
-    
-    CONTINUE_BUTTON = (By.CSS_SELECTOR, "button[data-testid='campaign-continue']")
-    CONTINUE_ERROR = (By.XPATH, "//div[contains(text(), 'Заполните обязательные поля')]") 
+    ONE_ERROR = (By.XPATH, '//span[text()="1 ошибка"]')
+
+    UTM_RADIO = (By.XPATH, '//label[.//span[text()="Добавлять UTM-метки вручную"]]')
+    INVALID_UTM = (By.XPATH, '//input[@type="radio" and @value="manual"]')
