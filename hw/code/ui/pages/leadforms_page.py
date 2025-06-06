@@ -15,12 +15,29 @@ class LeadformsPage(BasePage):
     def hover_first_leadform(self):
         first_leadform = self.find(self.locators_leadforms.LEADFORM)
         self.hover(first_leadform)
+    
+    def hover_leadform(self, leadform_name):
+        leadform = self.find(self.locators_leadforms.LEADFORM_BY_NAME(leadform_name))
+        self.hover(leadform)
 
     def click_edit_button(self):
         self.click(self.locators_leadforms.LEADFORM_EDIT_BTN)
 
+    def click_archive_button(self):
+        self.click(self.locators_leadforms.LEADFORM_ARCHIVE_BTN)
+        self.click(self.locators_leadforms.LEADFORM_ARCHIVE_CONFIRM_BTN)
+
+    def archive_leadform(self, leadform_name):
+        self.hover_leadform(leadform_name)
+        self.click_archive_button()
+
 class CreateLeadformPage(LeadformsPage):
     locators_create_leadform = CreateLeadformPageLocators()
+
+    def __init__(self, driver):
+        super().__init__(driver)
+        driver.get(self.url)
+        self.click_create_leadform_button()
 
     def close_window(self):
         self.click(self.locators_create_leadform.CLOSE_WINDOW_BTN)
@@ -40,7 +57,7 @@ class CreateLeadformPage(LeadformsPage):
     def upload_logo(self, filepath='media/test_picture.jpg'):
         self.find(self.locators_create_leadform.SELECT_LOGO_INPUT).click()
         self.find(self.locators_create_leadform.LOGO_IN_MEDIA).click()
-        self.find(self.locators_create_leadform.SAVE_LOGO_BTN).click()
+        self.click(self.locators_create_leadform.SAVE_LOGO_BTN, 30)
     
     def has_logo_error(self):
         return self.has_element(self.locators_create_leadform.LOGO_ERROR)
@@ -79,17 +96,18 @@ class CreateLeadformPage(LeadformsPage):
     
     def is_question_form_visible(self):
         return self.has_element(self.locators_create_leadform.QUESTION_INPUT)
-    
-    def fill_answers(self):
+
+    def fill_answers(self, answers):
         inputs = self.find_all(self.locators_create_leadform.ANSWER_INPUT)
-        counter = 1
+        counter = 0
         for input in inputs:
-            input.send_keys(f'Тестовый ответ {counter}')
+            input.send_keys(answers[counter])
             counter += 1
 
-    def fill_question_section(self):
-        self.add_question('Тестовый вопрос')
-        self.fill_answers()
+    def fill_question_section(self, questions):
+        for q in questions:
+            self.add_question(q['question'])
+            self.fill_answers(q['answers'])
 
     def has_empty_question_error(self):
         return self.has_element(self.locators_create_leadform.EMPTY_QUESTION_ERROR)
@@ -105,9 +123,11 @@ class CreateLeadformPage(LeadformsPage):
     
     def is_settings_section_active(self):
         return "Настройки" in self.find(self.locators_create_leadform.ACTIVE_SECTION_TITLE).text
-    
+
     def fill_form_name(self, name):
-        self.find(self.locators_create_leadform.FORM_NAME_INPUT).send_keys(name)
+        input = self.find(self.locators_create_leadform.FORM_NAME_INPUT)
+        input.clear()
+        input.send_keys(name)
     
     def click_save(self):
         self.click(self.locators_create_leadform.SAVE_BTN)
@@ -125,16 +145,33 @@ class CreateLeadformPage(LeadformsPage):
         self.fill_user_name()
         self.fill_adress()
 
-    def complete_all_sections(self, company_name="Тестовая компания", title="Тестовый заголовок", description="Тестовое описание", question="Тестовый вопрос", form_name="Тестовая лид-форма"):
-        self.fill_form_name(form_name)
+    def complete_all_sections(
+            self,
+            company_name="Тестовая компания",
+            title="Тестовый заголовок", 
+            description="Тестовое описание", 
+            questions=[{
+                'question': "Тестовый вопрос",
+                'answers': ['Ответ 1', 'Ответ 2']
+            }],
+            leadform_name="Тестовая лид-форма"):
+        self.fill_form_name(leadform_name)
         self.fill_deco_section(company_name, title, description)
         self.click_continue()
-        self.fill_question_section()
+        self.fill_question_section(questions)
         self.click_continue()
         self.click_continue()
         self.fill_settings_section()
-    
-    def is_leadform_created(self, form_name):
-        locator = (self.locators_create_leadform.CREATED_FORM_TITLE[0], 
-                  self.locators_create_leadform.CREATED_FORM_TITLE[1].format(form_name))
-        return self.has_element(locator)
+
+    def create_leadform(self, leadform_data):
+        self.complete_all_sections(
+            company_name=leadform_data['company_name'],
+            title=leadform_data['title'],
+            description=leadform_data['description'],
+            questions=leadform_data['questions'],
+            leadform_name=leadform_data['leadform_name']
+        )
+        self.click_save()
+
+    def is_leadform_created(self, leadform_data):
+        return self.has_element(self.locators_leadforms.LEADFORM_BY_NAME(leadform_data['leadform_name']))

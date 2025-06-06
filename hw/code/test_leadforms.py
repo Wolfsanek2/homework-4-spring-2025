@@ -4,30 +4,39 @@ from ui.pages.leadforms_page import LeadformsPage, CreateLeadformPage
 import time
 import pytest
 
+leadform_data={
+    'company_name': 'Тестовая компания',
+    'title': 'Тестовый заголовок',
+    'description': 'Тестовое описание',
+    'questions': [{
+        'question': 'Тестовый вопрос',
+        'answers': ['Тестовый ответ 1', 'Тестовый ответ 2']
+    }],
+    'leadform_name': 'Тестовая лидформа'
+}
+
 class TestLeadforms(BaseCase):
     @fixture(scope='function')
     def leadforms_page(self):
-        pass
         driver = self.driver
         driver.get(LeadformsPage.url)
         return LeadformsPage(driver)
 
-    def test_create_leadform_buton_exists(self, leadforms_page):
-        element = leadforms_page.find(leadforms_page.locators_leadforms.CREATE_LEADFORM_BTN)
-        assert element.is_displayed()
+    @pytest.fixture
+    def create_leadform_fixture(self):
+        create_leadform_page = CreateLeadformPage(self.driver)
+        yield create_leadform_page
+        create_leadform_page.archive_leadform(leadform_data['leadform_name'])
 
-    def test_create_lead_form_window_appears(self, leadforms_page: LeadformsPage):
-        leadforms_page.click_create_leadform_button()
-        assert leadforms_page.find(leadforms_page.locators_leadforms.CREATE_LEADFORM_WINDOW_TITLE).is_displayed()
-    
-    def test_edit_button_appears_on_hover(self, leadforms_page: LeadformsPage):
-        leadforms_page.hover_first_leadform()
-        assert leadforms_page.find(leadforms_page.locators_leadforms.LEADFORM_EDIT_BTN).is_displayed()
+    def test_create_leadform(self, create_leadform_fixture: CreateLeadformPage):
+        create_leadform_fixture.create_leadform(leadform_data)
+        assert create_leadform_fixture.is_leadform_created(leadform_data)
 
-    def test_edit_leadform_window_appears(self, leadforms_page: LeadformsPage):
-        leadforms_page.hover_first_leadform()
-        leadforms_page.click_edit_button()
-        assert leadforms_page.find(leadforms_page.locators_leadforms.EDIT_LEADFORM_WINDOW_TITLE).is_displayed()
+    def test_edit_leadform(self):
+        pass
+
+    def test_archive_leadform(self):
+        pass
 
 class TestCreateLeadform(BaseCase):
     @fixture(scope='function')

@@ -57,7 +57,7 @@ class BasePage(object):
         ActionChains(self.driver).move_to_element(element).perform()
 
     def click(self, locator, timeout=10) -> WebElement:
-        self.find(locator, timeout=timeout)
+        self.find(locator, timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
 
@@ -82,10 +82,6 @@ class BasePage(object):
             return True
         except TimeoutException:
             return False
-
-    def click(self, locator):
-        element = self.wait().until(EC.element_to_be_clickable(locator))
-        element.click()
 
     def fill(self, locator, text: str):
         element = self.wait().until(EC.visibility_of_element_located(locator))

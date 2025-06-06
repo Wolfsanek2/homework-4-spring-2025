@@ -22,7 +22,7 @@ class LoginPage(BasePage):
         self.click(self.locators_login.PHONE_BTN)
 
     def choose_another_login_way(self):
-        self.click(self.locators_login.CONFIRN_ANOTHER_WAY_BTN, timeout=60)
+        self.click(self.locators_login.CONFIRN_ANOTHER_WAY_BTN, 60)
 
     def choose_login_by_password(self):
         self.click(self.locators_login.CHOOSE_PASSWORD_BTN)

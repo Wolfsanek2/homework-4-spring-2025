@@ -6,6 +6,11 @@ class LeadformsPageLocators:
     LEADFORM = (By.XPATH, '//span[contains(text(), "Лид-форма")]')
     LEADFORM_EDIT_BTN = (By.XPATH, '//span[text()="Редактировать"]')
     EDIT_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Редактирование лид-формы"]')
+    LEADFORM_ARCHIVE_BTN = (By.XPATH, '//span[text()="Архивировать"]')
+    LEADFORM_ARCHIVE_CONFIRM_BTN = (By.XPATH, '//div[@data-testid="modal-confirm"]//span[text()="Архивировать"]')
+
+    def LEADFORM_BY_NAME(self, leadform_name):
+        return (By.XPATH, f'//span[contains(text(), "{leadform_name}")]')
 
 class CreateLeadformPageLocators:
     CREATE_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Новая лид-форма"]')
