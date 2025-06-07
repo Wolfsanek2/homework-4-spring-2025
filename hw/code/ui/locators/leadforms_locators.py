@@ -9,8 +9,14 @@ class LeadformsPageLocators:
     LEADFORM_ARCHIVE_BTN = (By.XPATH, '//span[text()="Архивировать"]')
     LEADFORM_ARCHIVE_CONFIRM_BTN = (By.XPATH, '//div[@data-testid="modal-confirm"]//span[text()="Архивировать"]')
 
+    LEADFORM_SECTIONS = (By.XPATH, "//span[text()='Активные' or text()='В архиве']")
+    LEADFORM_SECTION_ARCHIVE = (By.XPATH, "//span[text()='В архиве']")
+
+    def LEADFORM_ID_LOCATOR(self, leadform_id):
+        return (By.XPATH, f'//span[text()="{leadform_id}"]')
+
     def LEADFORM_BY_NAME(self, leadform_name):
-        return (By.XPATH, f'//span[contains(text(), "{leadform_name}")]')
+        return (By.XPATH, f'//span[contains(text(), "{leadform_name}")]//ancestor::div[@data-entityid]')
 
 class CreateLeadformPageLocators:
     CREATE_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Новая лид-форма"]')

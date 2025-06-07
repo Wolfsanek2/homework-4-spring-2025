@@ -12,6 +12,10 @@ class LeadformsPage(BasePage):
     def click_create_leadform_button(self):
         self.click(self.locators_leadforms.CREATE_LEADFORM_BTN)
 
+    def go_to_archive_section(self):
+        self.click(self.locators_leadforms.LEADFORM_SECTIONS)
+        self.click(self.locators_leadforms.LEADFORM_SECTION_ARCHIVE)
+
     def hover_first_leadform(self):
         first_leadform = self.find(self.locators_leadforms.LEADFORM)
         self.hover(first_leadform)
@@ -55,8 +59,8 @@ class CreateLeadformPage(LeadformsPage):
         return self.has_element(self.locators_create_leadform.COMPANY_NAME_ERROR)
 
     def upload_logo(self, filepath='media/test_picture.jpg'):
-        self.find(self.locators_create_leadform.SELECT_LOGO_INPUT).click()
-        self.find(self.locators_create_leadform.LOGO_IN_MEDIA).click()
+        self.click(self.locators_create_leadform.SELECT_LOGO_INPUT)
+        self.click(self.locators_create_leadform.LOGO_IN_MEDIA)
         self.click(self.locators_create_leadform.SAVE_LOGO_BTN, 30)
     
     def has_logo_error(self):
@@ -175,3 +179,11 @@ class CreateLeadformPage(LeadformsPage):
 
     def is_leadform_created(self, leadform_data):
         return self.has_element(self.locators_leadforms.LEADFORM_BY_NAME(leadform_data['leadform_name']))
+
+    def get_leadform_id(self, leadform_data):
+        leadform = self.find(self.locators_leadforms.LEADFORM_BY_NAME(leadform_data['leadform_name']))
+        return leadform.get_attribute("data-entityid")
+
+    def check_leadform_in_archive(self, id):
+        self.go_to_archive_section()
+        return self.has_element(id)

@@ -6,12 +6,15 @@ class LoginPage(BasePage):
     login_url = 'https://id.vk.com'
     locators_login = login_locators.LoginPageLocators()
     def login_by_phone(self, phone_number, password):
-        self.click_to_login_link()
-        self.enter_phone_number(phone_number)
-        self.choose_another_login_way()
-        self.choose_login_by_password()
-        self.enter_password(password)
-        self.choose_buisness_profile()
+        try:
+            self.click_to_login_link()
+            self.enter_phone_number(phone_number)
+            self.choose_another_login_way()
+            self.choose_login_by_password()
+            self.enter_password(password)
+            self.choose_buisness_profile()
+        except:
+            pass
 
     def click_to_login_link(self):
         self.click(self.locators.LOGIN_LINK)

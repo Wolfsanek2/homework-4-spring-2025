@@ -23,20 +23,26 @@ class TestLeadforms(BaseCase):
         return LeadformsPage(driver)
 
     @pytest.fixture
-    def create_leadform_fixture(self):
-        create_leadform_page = CreateLeadformPage(self.driver)
-        yield create_leadform_page
-        create_leadform_page.archive_leadform(leadform_data['leadform_name'])
+    def create_leadform_fixture_with_teardown(self, create_leadform_fixture):
+        yield create_leadform_fixture
+        create_leadform_fixture.archive_leadform(leadform_data['leadform_name'])
 
-    def test_create_leadform(self, create_leadform_fixture: CreateLeadformPage):
-        create_leadform_fixture.create_leadform(leadform_data)
-        assert create_leadform_fixture.is_leadform_created(leadform_data)
+    @pytest.fixture
+    def create_leadform_fixture(self):
+        return CreateLeadformPage(self.driver)
+
+    def test_create_leadform(self, create_leadform_fixture_with_teardown: CreateLeadformPage):
+        create_leadform_fixture_with_teardown.create_leadform(leadform_data)
+        assert create_leadform_fixture_with_teardown.is_leadform_created(leadform_data)
 
     def test_edit_leadform(self):
         pass
 
-    def test_archive_leadform(self):
-        pass
+    def test_archive_leadform(self, create_leadform_fixture: CreateLeadformPage):
+        create_leadform_fixture.create_leadform(leadform_data)
+        id =  create_leadform_fixture.get_leadform_id(leadform_data)
+        create_leadform_fixture.archive_leadform(leadform_data["leadform_name"])
+        assert create_leadform_fixture.check_leadform_in_archive(id)
 
 class TestCreateLeadform(BaseCase):
     @fixture(scope='function')
