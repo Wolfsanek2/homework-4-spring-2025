@@ -16,9 +16,8 @@ class LeadformsPage(BasePage):
         self.click(self.locators_leadforms.CREATE_LEADFORM_BTN)
 
     def go_to_archive_section(self):
-        sections = self.find(self.locators_leadforms.LEADFORM_SECTIONS)
-        dropdown = Select(sections)
-        dropdown.select_by_index(1)
+        self.click(self.locators_leadforms.LEADFORM_SECTIONS)
+        self.click(self.locators_leadforms.ARCHIVE_SECTION)
 
     def hover_first_leadform(self):
         first_leadform = self.find(self.locators_leadforms.LEADFORM)
@@ -79,8 +78,9 @@ class CreateLeadformPage(LeadformsPage):
     def fill_deco_section(self, company_name="Название_компании", title="Тестовый заголовок", description="Тестовое описание", logo='media/test_picture.jpg'):
         self.fill_company_name(company_name)
         self.fill_title(title)
-        self.upload_logo(logo)
         self.fill_description(description)
+        self.upload_logo(logo)
+        self.wait_until_element_disappears(self.locators_create_leadform.IMAGE_CROPPER)
 
     def is_question_section_active(self):
         return self.has_element(self.locators_create_leadform.QUESTIONS_ACTIVE_SECTION)
@@ -188,6 +188,6 @@ class CreateLeadformPage(LeadformsPage):
         leadform = self.find(self.locators_leadforms.LEADFORM_BY_NAME(leadform_data['leadform_name']))
         return leadform.get_attribute("data-entityid")
 
-    def check_leadform_in_archive(self, id):
+    def is_leadform_archived(self, id):
         self.go_to_archive_section()
         return self.has_element(self.locators_leadforms.LEADFORM_ID_LOCATOR(id))

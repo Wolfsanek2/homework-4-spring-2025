@@ -64,9 +64,7 @@ class BasePage(object):
     def __init__(self, driver):
         self.driver = driver
 
-    def wait(self, timeout=None):
-        if timeout is None:
-            timeout = 5
+    def wait(self, timeout=5):
         return WebDriverWait(self.driver, timeout=timeout)
 
     def is_element_present(self, locator) -> bool:
@@ -114,3 +112,6 @@ class BasePage(object):
     def select_radio(self, locator):
         if not self.is_radio_selected(locator):
             self.click(locator)
+
+    def wait_until_element_disappears(self, locator):
+        self.wait().until(EC.invisibility_of_element_located(locator))

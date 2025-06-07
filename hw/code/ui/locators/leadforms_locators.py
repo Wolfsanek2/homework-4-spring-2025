@@ -9,7 +9,8 @@ class LeadformsPageLocators:
     LEADFORM_ARCHIVE_BTN = (By.XPATH, '//span[text()="Архивировать"]')
     LEADFORM_ARCHIVE_CONFIRM_BTN = (By.XPATH, '//div[@data-testid="modal-confirm"]//span[text()="Архивировать"]')
 
-    LEADFORM_SECTIONS = (By.XPATH, '//select[@data-testid="select-options"]')
+    LEADFORM_SECTIONS = (By.XPATH, '//span[text()="Активные" or text()="В архиве"]//ancestor::div[@class="vkuiCustomSelectInput__input-group"]//input')
+    ARCHIVE_SECTION = (By.XPATH, '//*[contains(@class, "vkuiCustomSelectOption") and text()="В архиве"]')
 
     def LEADFORM_ID_LOCATOR(self, leadform_id):
         return (By.XPATH, f'//span[text()="{leadform_id}"]')
@@ -28,6 +29,7 @@ class CreateLeadformPageLocators:
     LOGO_ERROR = (By.XPATH, "//div[contains(@class, 'vkuiFormItem') and .//span[contains(text(), 'Логотип')]]//span[@role='alert']/div[text()='Нужно заполнить']")
     LOGO_IN_MEDIA = (By.CSS_SELECTOR, "div[class*='ItemList_item']")
     SAVE_LOGO_BTN = (By.XPATH, '//span[text()="Сохранить"]')
+    IMAGE_CROPPER = (By.XPATH, '//div[contains(@class, "ImageCropper")]')
     TITLE_INPUT = (By.XPATH, '//input[@placeholder="Текст заголовка"]')
     DESCRIPTION_INPUT = (By.XPATH, '//input[@placeholder="Введите описание"]')
     ACTIVE_SECTION_TITLE = (By.CSS_SELECTOR, 'div[class*="CreateLeadFormModal_activeStep"]')
