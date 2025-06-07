@@ -9,8 +9,7 @@ class LeadformsPageLocators:
     LEADFORM_ARCHIVE_BTN = (By.XPATH, '//span[text()="Архивировать"]')
     LEADFORM_ARCHIVE_CONFIRM_BTN = (By.XPATH, '//div[@data-testid="modal-confirm"]//span[text()="Архивировать"]')
 
-    LEADFORM_SECTIONS = (By.XPATH, "//span[text()='Активные' or text()='В архиве']")
-    LEADFORM_SECTION_ARCHIVE = (By.XPATH, "//span[text()='В архиве']")
+    LEADFORM_SECTIONS = (By.XPATH, '//select[@data-testid="select-options"]')
 
     def LEADFORM_ID_LOCATOR(self, leadform_id):
         return (By.XPATH, f'//span[text()="{leadform_id}"]')

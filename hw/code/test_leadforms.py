@@ -38,6 +38,9 @@ class TestLeadforms(BaseCase):
     def test_edit_leadform(self):
         pass
 
+    def test_go_to_archive(self, create_leadform_fixture: CreateLeadformPage):
+        create_leadform_fixture.go_to_archive_section()
+
     def test_archive_leadform(self, create_leadform_fixture: CreateLeadformPage):
         create_leadform_fixture.create_leadform(leadform_data)
         id =  create_leadform_fixture.get_leadform_id(leadform_data)

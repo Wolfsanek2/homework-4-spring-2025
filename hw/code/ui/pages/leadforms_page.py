@@ -1,4 +1,7 @@
+import time
+
 from ui.pages.base_page import BasePage
+from selenium.webdriver.support.ui import Select
 from ui.locators.leadforms_locators import LeadformsPageLocators, CreateLeadformPageLocators
 
 class LeadformsPage(BasePage):
@@ -13,8 +16,9 @@ class LeadformsPage(BasePage):
         self.click(self.locators_leadforms.CREATE_LEADFORM_BTN)
 
     def go_to_archive_section(self):
-        self.click(self.locators_leadforms.LEADFORM_SECTIONS)
-        self.click(self.locators_leadforms.LEADFORM_SECTION_ARCHIVE)
+        sections = self.find(self.locators_leadforms.LEADFORM_SECTIONS)
+        dropdown = Select(sections)
+        dropdown.select_by_index(1)
 
     def hover_first_leadform(self):
         first_leadform = self.find(self.locators_leadforms.LEADFORM)
@@ -75,8 +79,8 @@ class CreateLeadformPage(LeadformsPage):
     def fill_deco_section(self, company_name="Название_компании", title="Тестовый заголовок", description="Тестовое описание", logo='media/test_picture.jpg'):
         self.fill_company_name(company_name)
         self.fill_title(title)
-        self.fill_description(description)
         self.upload_logo(logo)
+        self.fill_description(description)
 
     def is_question_section_active(self):
         return self.has_element(self.locators_create_leadform.QUESTIONS_ACTIVE_SECTION)
@@ -186,4 +190,4 @@ class CreateLeadformPage(LeadformsPage):
 
     def check_leadform_in_archive(self, id):
         self.go_to_archive_section()
-        return self.has_element(id)
+        return self.has_element(self.locators_leadforms.LEADFORM_ID_LOCATOR(id))
