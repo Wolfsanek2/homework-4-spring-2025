@@ -68,11 +68,7 @@ class BasePage(object):
         return WebDriverWait(self.driver, timeout=timeout)
 
     def is_element_present(self, locator) -> bool:
-        try:
-            self.wait().until(EC.presence_of_element_located(locator))
-            return True
-        except TimeoutException:
-            return False
+        return len(self.driver.find_elements(locator[0], locator[1])) > 0
 
     def is_element_visible(self, locator) -> bool:
         try:
@@ -83,8 +79,11 @@ class BasePage(object):
 
     def fill(self, locator, text: str):
         element = self.wait().until(EC.visibility_of_element_located(locator))
-        element.clear()
-        element.send_keys(text)
+        self.fill_input(element, text)
+
+    def fill_input(self, input, text):
+        input.clear()
+        input.send_keys(text)
 
     def get_text(self, locator) -> str:
         element = self.wait().until(EC.visibility_of_element_located(locator))

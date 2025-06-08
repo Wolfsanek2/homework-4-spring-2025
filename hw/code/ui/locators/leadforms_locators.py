@@ -5,7 +5,6 @@ class LeadformsPageLocators:
     CREATE_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Новая лид-форма"]')
     LEADFORM = (By.XPATH, '//span[contains(text(), "Лид-форма")]')
     LEADFORM_EDIT_BTN = (By.XPATH, '//span[text()="Редактировать"]')
-    EDIT_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Редактирование лид-формы"]')
     LEADFORM_ARCHIVE_BTN = (By.XPATH, '//span[text()="Архивировать"]')
     LEADFORM_ARCHIVE_CONFIRM_BTN = (By.XPATH, '//div[@data-testid="modal-confirm"]//span[text()="Архивировать"]')
 
@@ -18,14 +17,15 @@ class LeadformsPageLocators:
     def LEADFORM_BY_NAME(self, leadform_name):
         return (By.XPATH, f'//span[contains(text(), "{leadform_name}")]//ancestor::div[@data-entityid]')
 
-class CreateLeadformPageLocators:
-    CREATE_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Новая лид-форма"]')
+class LeadformFormPageLocators:
     CLOSE_WINDOW_BTN = (By.XPATH, '//button[@aria-label="Close"]')
     CONTINUE_BTN = (By.XPATH, '//span[text()="Продолжить"]//ancestor::button')
     EMPTY_INPUT_ERROR = (By.XPATH, '//div[text()="Нужно заполнить"]')
     COMPANY_NAME_INPUT = (By.XPATH, '//input[@placeholder="Название компании"]')
     COMPANY_NAME_ERROR = (By.XPATH, "//*[contains(text(), 'Название компании')]/ancestor::div[contains(@class, 'vkuiFormItem')]//div[text()='Нужно заполнить']")
+    UPLOAD_LOGO_TITLE = (By.XPATH, '//span[text()="Загрузить логотип"]')
     SELECT_LOGO_INPUT = (By.XPATH, '//span[text()="Загрузить логотип"]')
+    CHANGE_LOGO_INPUT = (By.XPATH, '//span[text()="Заменить"]')
     LOGO_ERROR = (By.XPATH, "//div[contains(@class, 'vkuiFormItem') and .//span[contains(text(), 'Логотип')]]//span[@role='alert']/div[text()='Нужно заполнить']")
     LOGO_IN_MEDIA = (By.CSS_SELECTOR, "div[class*='ItemList_item']")
     SAVE_LOGO_BTN = (By.XPATH, '//span[text()="Сохранить"]')
@@ -41,6 +41,7 @@ class CreateLeadformPageLocators:
     BACK_BTN = (By.XPATH, '//span[text()="Назад"]')
     
     ADD_QUESTION_BTN = (By.XPATH, '//span[text()="Добавить вопрос"]')
+    QUESTION_CONTAINER = (By.XPATH, '//div[contains(@class, "Question_question__")]')
     QUESTION_INPUT = (By.XPATH, '//textarea[@placeholder="Напишите вопрос"]')
     EMPTY_QUESTION_ERROR = (By.XPATH, '//div[text()="Нужно заполнить"]')
 
@@ -49,7 +50,7 @@ class CreateLeadformPageLocators:
     RESULT_TITLE = (By.XPATH, '//span[text()="Заголовок"]//ancestor::div[contains(@class, "vkuiFormItem")]//input')
     RESULT_DESCRIPTION = (By.XPATH, '//span[text()="Описание"]//ancestor::div[contains(@class, "vkuiFormItem")]//input')
     
-    FORM_NAME_INPUT = (By.XPATH, '//input[@placeholder="Название лид-формы"]')
+    LEADFORM_NAME_INPUT = (By.XPATH, '//input[@placeholder="Название лид-формы"]')
     SAVE_BTN = (By.XPATH, '//span[text()="Сохранить"]')
     SETTINGS_ERROR = (By.XPATH, '//div[text()="Нужно заполнить"]')
     
@@ -58,3 +59,9 @@ class CreateLeadformPageLocators:
     USER_NAME_INPUT = (By.XPATH, '//input[@placeholder="Введите фамилию, имя и отчество"]')
 
     ADRESS_INPUT = (By.XPATH, '//input[@placeholder="Введите адрес"]')
+
+class CreateLeadformPageLocators(LeadformFormPageLocators):
+    CREATE_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Новая лид-форма"]')
+
+class EditLeadFormPageLocators(LeadformFormPageLocators):
+    EDIT_LEADFORM_WINDOW_TITLE = (By.XPATH, '//h2[text()="Редактирование лид-формы"]')
