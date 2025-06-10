@@ -33,6 +33,9 @@ class LeadformsPage(BasePage):
         leadform = self.find(self.locators_leadforms.LEADFORM_BY_NAME(leadform_name))
         self.hover(leadform)
 
+    def has_leadform(self, leadfrom_name):
+        return self.has_element(self.locators_leadforms.LEADFORM_BY_NAME(leadfrom_name))
+
     def click_archive_button(self):
         self.click(self.locators_leadforms.LEADFORM_ARCHIVE_BTN)
         self.click(self.locators_leadforms.LEADFORM_ARCHIVE_CONFIRM_BTN)
@@ -45,9 +48,12 @@ class LeadformsPage(BasePage):
         leadform = self.find(self.locators_leadforms.LEADFORM_BY_NAME(leadform_data['leadform_name']))
         return leadform.get_attribute("data-entityid")
 
+    def has_leadform_by_id(self, id):
+        return self.has_element(self.locators_leadforms.LEADFORM_ID_LOCATOR(id))
+
     def is_leadform_archived(self, id):
         self.go_to_archive_section()
-        return self.has_element(self.locators_leadforms.LEADFORM_ID_LOCATOR(id))
+        return self.has_leadform_by_id(id)
 
 class LeadformFormPage(LeadformsPage):
     locators_leadform_form = LeadformFormPageLocators()
